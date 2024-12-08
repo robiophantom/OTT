@@ -5,7 +5,7 @@ import requests
 from dotenv import load_dotenv
 import os
 
-# Injecting custom CSS
+# Injecting custom CSS.
 st.markdown(
     """
     <style>
