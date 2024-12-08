@@ -63,7 +63,7 @@ def get_cache_dir():
         cache_dir = Path(os.path.expanduser('~')) / '.cache' / 'MyAppCache'
 
     # Creating a directory if it does not exist
-    cache_dir.parent.mkdir(parents=True, exist_ok=True)
+    cache_dir.mkdir(parents=True, exist_ok=True)
 
     return cache_dir
 
