@@ -8,6 +8,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 import platform
+import gc
 
 # Injecting custom CSS
 st.markdown(
@@ -148,3 +149,10 @@ if st.button('Recommend'):
         st.image(posters[4])
 
     print(f'Recommended loaded in time {time.time() - start_time:.2f} seconds')
+
+    del movies_list
+    del similarity
+
+    gc.collect()
+
+    save_cache()
