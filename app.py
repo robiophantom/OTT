@@ -5,6 +5,7 @@ import asyncio
 import aiohttp
 import time
 from pathlib import Path
+from dotenv import load_dotenv
 import os
 import platform
 
@@ -84,8 +85,10 @@ async def fetch_poster_async(movie_id, session):
 
     if movie_id in poster_cache:
         return poster_cache[movie_id]
-
-    async with session.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key=f21d40903659d9c7c3e88ed83959dadd') as response:
+    
+    load_dotenv()
+    api_key = os.getenv('API_KEY')
+    async with session.get(f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}') as response:
         data = await response.json()
         poster_url = 'https://image.tmdb.org/t/p/w185/' + data['poster_path']
         poster_cache[movie_id] = poster_url
