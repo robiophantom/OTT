@@ -42,13 +42,20 @@ st.markdown('<h1>Welcome to OTT World</h1>', unsafe_allow_html=True)
 st.markdown('<p>Beautiful and Thrilling Streaming Awaits...</p>', unsafe_allow_html=True)
 
 # Function to fetch poster using API key
-def fetch_poster(movie_id):
+def fetch_poster(movie_title):
     load_dotenv()
     api_key = os.getenv('API_KEY')  # Replace with your API key
-    url = f'https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}'
+    url = "http://www.omdbapi.com/"
+
+    params = {
+        "apikey": api_key,
+        "t": movie_title,  # Movie title
+    }
+    # Make the API request
+    response = requests.get(url, params=params)
     response = requests.get(url)
     data = response.json()
-    return 'https://image.tmdb.org/t/p/w185/' + data['poster_path']
+    return data.get('Poster')
 
 # Function to recommend movies
 def recommend(movie_name, movies_x, similarity_y):
@@ -60,9 +67,8 @@ def recommend(movie_name, movies_x, similarity_y):
     poster_urls = []
 
     for i in movie_list:
-        movie_id = movies_x.iloc[i[0]].movie_id
         movie_recommended.append(movies_x.iloc[i[0]].title)
-        poster_urls.append(fetch_poster(movie_id))
+        poster_urls.append(fetch_poster(movies_x.iloc[i[0]].title))
 
     return movie_recommended, poster_urls
 
